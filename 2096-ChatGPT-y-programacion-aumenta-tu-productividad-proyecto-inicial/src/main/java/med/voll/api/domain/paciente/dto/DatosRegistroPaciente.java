@@ -20,7 +20,7 @@ public record DatosRegistroPaciente(
         @Size(min = 0, max = 15)
         String telefono,
 
-        @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}")
+        @Pattern(regexp = "\\d{13}") //Se cambió para darle el formato de INE mexicano
         @NotBlank
         String documento,
 
