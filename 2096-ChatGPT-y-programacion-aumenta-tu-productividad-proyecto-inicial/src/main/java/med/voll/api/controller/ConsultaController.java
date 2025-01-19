@@ -3,6 +3,7 @@ package med.voll.api.controller;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.consulta.AgendaDeConsultaService;
+import med.voll.api.domain.consulta.ConsultaRepository;
 import med.voll.api.domain.consulta.dto.DatosAgendarConsulta;
 import med.voll.api.domain.consulta.dto.DatosCancelamientoConsulta;
 import med.voll.api.domain.consulta.dto.DatosDetalleConsulta;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -29,6 +32,9 @@ public class ConsultaController {
 
     @Autowired
     private AgendaDeConsultaService service;
+
+    @Autowired
+    private ConsultaRepository consultaRepository;
 
     @GetMapping
     public ResponseEntity<Page<DatosDetalleConsulta>> listar(@PageableDefault(size = 10, sort = {"fecha"}) Pageable paginacion) {
@@ -52,8 +58,10 @@ public class ConsultaController {
 
     @GetMapping("/relatorio-mensual/{mes}")
     public ResponseEntity<List<DatosRelatoriosConsultaMensual>> generarRelatorioConsultaMensual(@PathVariable YearMonth mes) {
-        //var relatorio = consultaRepository.?
-        return ResponseEntity.ok(null);
+        int year = mes.getYear();
+        int month = mes.getMonthValue();
+        List<DatosRelatoriosConsultaMensual> report = consultaRepository.buscarConsultasPorMes(year, month);
+        return ResponseEntity.ok(report);
     }
 
 }
