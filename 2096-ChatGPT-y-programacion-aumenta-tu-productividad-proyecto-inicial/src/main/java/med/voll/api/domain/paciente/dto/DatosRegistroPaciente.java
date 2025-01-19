@@ -16,8 +16,8 @@ public record DatosRegistroPaciente(
         @Email
         String email,
 
+        @Pattern(regexp = "\\d{10}")
         @NotBlank
-        @Size(min = 0, max = 15)
         String telefono,
 
         @Pattern(regexp = "\\d{13}") //Se cambió para darle el formato de INE mexicano
